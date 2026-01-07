@@ -1,34 +1,78 @@
 import { useState } from "react";
-import { MapPin, Clock, Mail, Phone } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
+    toast({
+      title: "Message Sent!",
+      description: "Thank you for reaching out. We'll get back to you soon.",
+    });
+    
+    setFormData({ name: "", email: "", subject: "", message: "" });
+    setIsSubmitting(false);
+  };
+
+  const contactInfo = [
+    {
+      icon: MapPin,
+      title: "Location",
+      details: ["Community Fellowship Hall", "123 Faith Street", "Grace City, GC 12345"],
+    },
+    {
+      icon: Phone,
+      title: "Phone",
+      details: ["(555) 123-4567"],
+    },
+    {
+      icon: Mail,
+      title: "Email",
+      details: ["contact@gatheredinhisname.org"],
+    },
+    {
+      icon: Clock,
+      title: "Meeting Times",
+      details: ["Sunday: 10:00 AM", "Wednesday: 7:00 PM", "Friday: 6:30 PM"],
+    },
+  ];
+
   return (
-    <div>
+    <Layout>
       {/* Hero Section */}
-      <section className="bg-primary text-primary-foreground py-16 md:py-24">
+      <section className="bg-primary py-16 md:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
-            We'd love to hear from you. Reach out with any questions or prayer requests.
+          <h1 className="font-serif text-4xl md:text-5xl text-primary-foreground mb-4">
+            Get in <span className="text-gold">Touch</span>
+          </h1>
+          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
+            We'd love to hear from you. Whether you have a prayer request, a question, 
+            or just want to say hello—reach out to us.
           </p>
         </div>
       </section>
@@ -36,142 +80,151 @@ const Contact = () => {
       {/* Contact Content */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Form */}
-            <div className="bg-card p-8 rounded-xl shadow-lg">
-              <h2 className="font-serif text-2xl text-primary font-bold mb-6">Send Us a Message</h2>
-              {isSubmitted ? (
-                <div className="bg-secondary/20 border border-secondary rounded-lg p-6 text-center">
-                  <h3 className="font-serif text-xl text-primary font-semibold mb-2">
-                    Thank You!
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Your message has been received. We'll get back to you soon.
-                  </p>
-                  <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="mt-4 text-secondary hover:underline"
-                  >
-                    Send another message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
+            <div>
+              <h2 className="font-serif text-3xl text-foreground mb-6">
+                Send Us a <span className="text-gold">Message</span>
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Your Name</Label>
+                    <Input
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
+                      placeholder="John Smith"
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="John Doe"
+                      className="border-border focus:ring-gold"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input
                       id="email"
                       name="email"
+                      type="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring"
                       placeholder="john@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                      Your Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
                       required
-                      rows={5}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                      placeholder="How can we help you?"
+                      className="border-border focus:ring-gold"
                     />
                   </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-secondary text-secondary-foreground py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors"
-                  >
-                    Send Message
-                  </button>
-                </form>
-              )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="subject">Subject</Label>
+                  <Input
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="How can we help you?"
+                    required
+                    className="border-border focus:ring-gold"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">Your Message</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Write your message here..."
+                    rows={5}
+                    required
+                    className="border-border focus:ring-gold resize-none"
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-navy-dark font-semibold px-8"
+                >
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </form>
             </div>
 
             {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="font-serif text-2xl text-primary font-bold mb-6">Get in Touch</h2>
-                <p className="text-muted-foreground mb-8">
-                  Whether you have questions about our fellowship, need prayer, or simply want to connect, we're here for you.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                {[
-                  {
-                    icon: Clock,
-                    title: "Service Times",
-                    details: ["Sunday: 10:00 AM - 12:00 PM", "Wednesday Prayer: 7:00 PM"],
-                  },
-                  {
-                    icon: MapPin,
-                    title: "Location",
-                    details: ["123 Faith Street", "Your City, State 12345"],
-                  },
-                  {
-                    icon: Mail,
-                    title: "Email",
-                    details: ["contact@gatheredinhisname.org"],
-                  },
-                  {
-                    icon: Phone,
-                    title: "Phone",
-                    details: ["(555) 123-4567"],
-                  },
-                ].map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <item.icon className="w-6 h-6 text-secondary" />
-                    </div>
-                    <div>
-                      <h3 className="font-serif text-lg text-primary font-semibold">{item.title}</h3>
-                      {item.details.map((detail, i) => (
-                        <p key={i} className="text-muted-foreground">
-                          {detail}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+            <div>
+              <h2 className="font-serif text-3xl text-foreground mb-6">
+                Contact <span className="text-gold">Information</span>
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {contactInfo.map((info) => (
+                  <Card key={info.title} className="bg-cream border-none">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                          <info.icon className="h-5 w-5 text-gold" />
+                        </div>
+                        <div>
+                          <h3 className="font-serif text-lg text-foreground mb-2">{info.title}</h3>
+                          {info.details.map((detail, idx) => (
+                            <p key={idx} className="text-muted-foreground text-sm">{detail}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
 
-              {/* Scripture Quote */}
-              <div className="bg-primary text-primary-foreground p-6 rounded-xl mt-8">
-                <p className="text-secondary font-serif text-lg italic mb-2">
-                  "Come to me, all you who are weary and burdened, and I will give you rest."
-                </p>
-                <p className="text-primary-foreground/80 text-sm">— Matthew 11:28</p>
-              </div>
+              {/* Map Placeholder */}
+              <Card className="mt-6 bg-cream border-none overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="h-64 bg-muted flex items-center justify-center">
+                    <div className="text-center text-muted-foreground">
+                      <MapPin className="h-12 w-12 mx-auto mb-2 text-gold" />
+                      <p className="font-serif text-lg">Map Coming Soon</p>
+                      <p className="text-sm">123 Faith Street, Grace City</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl mb-4">
+            We Look Forward to <span className="text-gold">Meeting You</span>
+          </h2>
+          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-8">
+            Come experience the warmth of our fellowship. Join us for worship, prayer, 
+            and genuine Christian community.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="bg-gold/20 rounded-lg px-6 py-4">
+              <p className="text-gold font-semibold">Sunday Worship</p>
+              <p className="text-primary-foreground">10:00 AM</p>
+            </div>
+            <div className="bg-gold/20 rounded-lg px-6 py-4">
+              <p className="text-gold font-semibold">Wednesday Prayer</p>
+              <p className="text-primary-foreground">7:00 PM</p>
+            </div>
+            <div className="bg-gold/20 rounded-lg px-6 py-4">
+              <p className="text-gold font-semibold">Friday Bible Study</p>
+              <p className="text-primary-foreground">6:30 PM</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
   );
 };
 

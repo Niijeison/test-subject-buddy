@@ -1,120 +1,174 @@
 import { Link } from "react-router-dom";
-import { Heart, BookOpen, Users, Clock } from "lucide-react";
+import { Users, BookOpen, Clock, MapPin, Heart, Cross } from "lucide-react";
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/logo.png";
 
 const Index = () => {
+  const beliefs = [
+    {
+      icon: Cross,
+      title: "Christ-Centered",
+      description: "Jesus Christ is the foundation of our fellowship and the center of all we do.",
+    },
+    {
+      icon: BookOpen,
+      title: "Scripture-Based",
+      description: "We hold firmly to the Word of God as our guide for faith and practice.",
+    },
+    {
+      icon: Users,
+      title: "Community-Focused",
+      description: "We believe in the power of believers gathering together in unity and love.",
+    },
+    {
+      icon: Heart,
+      title: "Prayer-Driven",
+      description: "Prayer is the heartbeat of our fellowship, connecting us to our Heavenly Father.",
+    },
+  ];
+
   return (
-    <div>
+    <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-primary to-primary/90 text-primary-foreground py-20 md:py-32">
-        <div className="container mx-auto px-4 text-center">
-          <img src={logo} alt="Gathered IN HIS NAME Jesus" className="h-32 md:h-40 mx-auto mb-8" />
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Welcome to Our Fellowship
-          </h1>
-          <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8 leading-relaxed">
-            "For where two or three gather in my name, there am I with them."
-          </p>
-          <p className="text-secondary font-serif text-lg mb-10">— Matthew 18:20</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/about"
-              className="bg-secondary text-secondary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors"
-            >
-              Learn More
-            </Link>
-            <Link
-              to="/contact"
-              className="border-2 border-secondary text-secondary px-8 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-secondary-foreground transition-colors"
-            >
-              Get in Touch
-            </Link>
+      <section className="relative bg-primary py-20 md:py-32 overflow-hidden">
+        {/* Decorative background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a84b' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="flex flex-col items-center text-center">
+            <img 
+              src={logo} 
+              alt="Gathered IN HIS NAME Jesus Fellowship Logo" 
+              className="h-32 md:h-40 w-auto mb-8 animate-fade-in"
+            />
+            <h1 className="font-serif text-4xl md:text-6xl text-primary-foreground mb-4 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+              Gathered <span className="text-gold">IN HIS NAME</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gold font-serif mb-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+              Prayer Fellowship
+            </p>
+            <blockquote className="max-w-2xl text-primary-foreground/90 text-lg md:text-xl italic mb-8 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+              "For where two or three gather in my name, there am I with them."
+              <footer className="mt-2 text-gold not-italic text-base">— Matthew 18:20</footer>
+            </blockquote>
+            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+              <Button asChild size="lg" className="bg-gold text-primary hover:bg-gold-dark font-semibold px-8">
+                <Link to="/about">Learn More</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="border-gold text-gold hover:bg-gold hover:text-primary font-semibold px-8">
+                <Link to="/contact">Join Us</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Mission Statement */}
+      {/* Welcome Section */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-serif text-3xl md:text-4xl text-primary font-bold mb-6">
-              Our Mission
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-6">
+              Welcome to Our <span className="text-gold">Fellowship</span>
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              We are a community of believers united by our faith in Jesus Christ. Our fellowship is dedicated to prayer, worship, and growing together in God's love. We welcome all who seek to deepen their relationship with the Lord and find fellowship with like-minded believers.
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              We are a community of believers united by our love for Jesus Christ and our commitment 
+              to prayer. Our fellowship is a place where hearts are lifted, burdens are shared, 
+              and the presence of God is experienced together. Whether you're seeking spiritual 
+              growth, prayer support, or simply a loving community, you are welcome here.
             </p>
+            <div className="w-24 h-1 bg-gold mx-auto" />
           </div>
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      {/* What We Believe Section */}
+      <section className="py-16 md:py-24 bg-cream">
         <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-primary font-bold text-center mb-12">
-            What We Believe
+          <h2 className="font-serif text-3xl md:text-4xl text-center text-foreground mb-12">
+            What We <span className="text-gold">Believe</span>
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Heart,
-                title: "Love",
-                description: "Love God with all your heart and love your neighbor as yourself.",
-              },
-              {
-                icon: BookOpen,
-                title: "Scripture",
-                description: "The Bible is God's inspired Word and our guide for faith and life.",
-              },
-              {
-                icon: Users,
-                title: "Fellowship",
-                description: "We grow stronger together through prayer, worship, and community.",
-              },
-              {
-                icon: Clock,
-                title: "Prayer",
-                description: "Prayer is our lifeline to God and the foundation of our fellowship.",
-              },
-            ].map((value, index) => (
-              <div
-                key={index}
-                className="bg-card p-8 rounded-xl shadow-md text-center hover:shadow-lg transition-shadow"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {beliefs.map((belief, index) => (
+              <Card 
+                key={belief.title} 
+                className="bg-card border-none shadow-lg hover:shadow-xl transition-shadow animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="w-8 h-8 text-secondary" />
-                </div>
-                <h3 className="font-serif text-xl text-primary font-semibold mb-3">
-                  {value.title}
-                </h3>
-                <p className="text-muted-foreground">{value.description}</p>
-              </div>
+                <CardContent className="pt-8 pb-6 px-6 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary flex items-center justify-center">
+                    <belief.icon className="h-8 w-8 text-gold" />
+                  </div>
+                  <h3 className="font-serif text-xl text-foreground mb-3">{belief.title}</h3>
+                  <p className="text-muted-foreground text-sm">{belief.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Meeting Times */}
+      {/* Meeting Information Section */}
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold mb-8">Join Us for Worship</h2>
+        <div className="container mx-auto px-4">
+          <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
+            Join Us in <span className="text-gold">Prayer</span>
+          </h2>
           <div className="max-w-2xl mx-auto">
-            <div className="bg-primary-foreground/10 rounded-xl p-8">
-              <p className="text-secondary text-xl font-serif mb-2">Every Sunday</p>
-              <p className="text-3xl font-bold mb-4">10:00 AM - 12:00 PM</p>
-              <p className="text-primary-foreground/80">
-                Come as you are and experience the joy of worshiping together in His name.
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                  <Clock className="h-6 w-6 text-gold" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-xl text-gold mb-2">Meeting Times</h3>
+                  <p className="text-primary-foreground/80">Sunday Worship: 10:00 AM</p>
+                  <p className="text-primary-foreground/80">Wednesday Prayer: 7:00 PM</p>
+                  <p className="text-primary-foreground/80">Friday Bible Study: 6:30 PM</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-gold" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-xl text-gold mb-2">Location</h3>
+                  <p className="text-primary-foreground/80">Community Fellowship Hall</p>
+                  <p className="text-primary-foreground/80">123 Faith Street</p>
+                  <p className="text-primary-foreground/80">Grace City, GC 12345</p>
+                </div>
+              </div>
+            </div>
+            <div className="text-center mt-12">
+              <Button asChild size="lg" className="bg-gold text-primary hover:bg-gold-dark font-semibold px-8">
+                <Link to="/contact">Get Directions</Link>
+              </Button>
             </div>
           </div>
-          <Link
-            to="/contact"
-            className="inline-block mt-8 bg-secondary text-secondary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors"
-          >
-            Get Directions
-          </Link>
         </div>
       </section>
-    </div>
+
+      {/* Call to Action Section */}
+      <section className="py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-4">
+            Come as You Are
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
+            Whether you're taking your first steps in faith or have walked with the Lord for years, 
+            there's a place for you in our fellowship. We'd love to meet you.
+          </p>
+          <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-navy-dark font-semibold px-8">
+            <Link to="/contact">Contact Us Today</Link>
+          </Button>
+        </div>
+      </section>
+    </Layout>
   );
 };
 

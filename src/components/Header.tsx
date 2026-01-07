@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
@@ -8,9 +8,9 @@ const Header = () => {
   const location = useLocation();
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { path: "/", label: "Home" },
+    { path: "/about", label: "About" },
+    { path: "/contact", label: "Contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -19,13 +19,20 @@ const Header = () => {
     <header className="bg-primary shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Gathered IN HIS NAME Jesus" className="h-14 w-auto" />
+            <img 
+              src={logo} 
+              alt="Gathered IN HIS NAME Jesus Fellowship Logo" 
+              className="h-14 w-auto"
+            />
             <div className="hidden sm:block">
-              <h1 className="text-primary-foreground font-serif text-lg font-semibold leading-tight">
-                Gathered IN HIS NAME
-              </h1>
-              <p className="text-primary-foreground/80 text-sm">Prayer Fellowship</p>
+              <p className="text-primary-foreground font-serif text-lg font-semibold leading-tight">
+                Gathered
+              </p>
+              <p className="text-gold text-sm font-serif">
+                IN HIS NAME
+              </p>
             </div>
           </Link>
 
@@ -35,44 +42,42 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-sans font-medium transition-colors ${
-                  isActive(link.path)
-                    ? "text-secondary"
-                    : "text-primary-foreground/90 hover:text-secondary"
+                className={`text-primary-foreground font-medium transition-colors hover:text-gold ${
+                  isActive(link.path) ? "text-gold border-b-2 border-gold pb-1" : ""
                 }`}
               >
-                {link.name}
+                {link.label}
               </Link>
             ))}
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-primary-foreground p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-primary-foreground hover:text-gold transition-colors"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden pb-4 border-t border-primary-foreground/20 pt-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block py-2 font-sans font-medium transition-colors ${
-                  isActive(link.path)
-                    ? "text-secondary"
-                    : "text-primary-foreground/90 hover:text-secondary"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <nav className="md:hidden py-4 border-t border-navy-light">
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-primary-foreground font-medium transition-colors hover:text-gold py-2 ${
+                    isActive(link.path) ? "text-gold" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </nav>
         )}
       </div>
